@@ -9,17 +9,26 @@
 #   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md
 
 module.exports = (robot) ->
-  
+
   robot.respond /weather (.*)/i, (res) ->
+  
     city = res.match[1]
+    cityCode = ""
     if city is "Tokyo"
-      res.reply "#{city} is Sunny."
+      cityCode = "130010"
     else if city is "Kanagawa"
-      res.reply "#{city} is Cloudy."
+      cityCode = "140010"
     else if city is "Chiba"
-      res.reply "#{city} is Rainy."
+      cityCode = "120010"
     else
       res.reply "I don't know."
+
+    request = res.http('http://weather.livedoor.com/forecast/webservice/json/v1').query(city: cityCode).get()
+    request (err, response, body) ->
+      console.log body
+      
+      result = JSON.parse(body)
+      res.reply result.description.text
 
   #robot.hear /badger/i, (res) ->
   #  res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
