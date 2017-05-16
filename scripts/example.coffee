@@ -9,19 +9,30 @@
 #   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md
 
 module.exports = (robot) ->
+  
+  robot.respond /weather (.*)/i, (res) ->
+    city = res.match[1]
+    if city is "Tokyo"
+      res.reply "#{city} is Sunny."
+    else if city is "Kanagawa"
+      res.reply "#{city} is Cloudy."
+    else if city is "Chiba"
+      res.reply "#{city} is Rainy."
+    else
+      res.reply "I don't know."
 
-  # robot.hear /badger/i, (res) ->
-  #   res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
+  #robot.hear /badger/i, (res) ->
+  #  res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
   #
-  # robot.respond /open the (.*) doors/i, (res) ->
-  #   doorType = res.match[1]
-  #   if doorType is "pod bay"
-  #     res.reply "I'm afraid I can't let you do that."
-  #   else
-  #     res.reply "Opening #{doorType} doors"
+  #robot.respond /open the (.*) doors/i, (res) ->
+  #  doorType = res.match[1]
+  #  if doorType is "pod bay"
+  #    res.reply "I'm afraid I can't let you do that."
+  #  else
+  #    res.reply "Opening #{doorType} doors"
   #
-  # robot.hear /I like pie/i, (res) ->
-  #   res.emote "makes a freshly baked pie"
+  #robot.hear /I like pie/i, (res) ->
+  #  res.emote "makes a freshly baked pie"
   #
   # lulz = ['lol', 'rofl', 'lmao']
   #
