@@ -19,25 +19,25 @@ module.exports = (robot) ->
         for reservation in data.Reservations
           for instance in reservation.Instances
             console.log "----------------------------------"
-            console.log "PublicDnsName: #{instance.PublicDnsName}"
-            console.log "State: #{instance.State.Name}"
-            console.log "PublicIpAddress: #{instance.PublicIpAddress}"
-            console.log "PrivateIpAddress: #{instance.PrivateIpAddress}"
-            console.log "PrivateDnsName: #{instance.PrivateDnsName}"
-            console.log "InstanceType: #{instance.InstanceType}"
-            console.log "Platform: #{instance.Platform}"
             for tag in instance.Tags
               console.log "#{tag.Key}: #{tag.Value}" if tag.Key is "Name"
+            console.log "State: #{instance.State.Name}"
+            console.log "Platform: #{instance.Platform}" if instance.Platform?
+            console.log "InstanceType: #{instance.InstanceType}"
+            console.log "PublicDnsName: #{instance.PublicDnsName}"
+            console.log "PublicIpAddress: #{instance.PublicIpAddress}"
+            console.log "PrivateDnsName: #{instance.PrivateDnsName}"
+            console.log "PrivateIpAddress: #{instance.PrivateIpAddress}"
             console.log "----------------------------------"
             message = ""
             message += "----------------------------------" + '\n'
-            message += "PublicDnsName: #{instance.PublicDnsName}" + '\n'
+            message += "#{tag.Key}: #{tag.Value}" + '\n' if tag.Key is "Name"
             message += "State: #{instance.State.Name}" + '\n'
-            message += "PublicIpAddress: #{instance.PublicIpAddress}" + '\n'
-            message += "PrivateIpAddress: #{instance.PrivateIpAddress}" + '\n'
-            message += "PrivateDnsName: #{instance.PrivateDnsName}" + '\n'
+            message += "Platform: #{instance.Platform}" + '\n' if instance.Platform?
             message += "InstanceType: #{instance.InstanceType}" + '\n'
-            message += "Platform: #{instance.Platform}" + '\n'
-            message += "#{tag.Key}: #{tag.Value}" + '\n'
+            message += "PublicDnsName: #{instance.PublicDnsName}" + '\n'
+            message += "PublicIpAddress: #{instance.PublicIpAddress}" + '\n'
+            message += "PrivateDnsName: #{instance.PrivateDnsName}" + '\n'
+            message += "PrivateIpAddress: #{instance.PrivateIpAddress}" + '\n'
             message += "----------------------------------"
             res.send message
