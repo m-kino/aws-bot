@@ -38,6 +38,6 @@ module.exports = (robot) ->
             message += "PrivateDnsName: #{instance.PrivateDnsName}" + '\n'
             message += "InstanceType: #{instance.InstanceType}" + '\n'
             message += "Platform: #{instance.Platform}" + '\n'
-            message += "#{tag.Key}: #{tag.Value}" if tag.Key is "Name" + '\n'
+            message += "#{tag.Key}: #{tag.Value}" + '\n'
             message += "----------------------------------"
             res.send message
