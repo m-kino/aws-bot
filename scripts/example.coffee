@@ -10,23 +10,26 @@
 
 module.exports = (robot) ->
 
-  robot.respond /weather (.*)/i, (res) ->
+  robot.respond /天気 (.*)/i, (res) ->
   
     city = res.match[1]
     cityCode = ""
-    if city is "Tokyo"
+    if city is "東京" or "とうきょう"
       cityCode = "130010"
-    else if city is "Kanagawa"
+    else if city is "神奈川" or "かながわ" or "横浜" or "よこはま"
       cityCode = "140010"
-    else if city is "Chiba"
+    else if city is "千葉" or "ちば"
       cityCode = "120010"
+    else if city is "埼玉" or "さいたま"
+      cityCode = "110010"
     else
-      res.reply "I don't know."
+      res.reply "首都圏以外は分かんないよ。"
 
     request = res.http('http://weather.livedoor.com/forecast/webservice/json/v1').query(city: cityCode).get()
     request (err, response, body) ->
       console.log body
       
+      res.send "＊#{city}の天気＊"
       result = JSON.parse(body)
       res.reply result.description.text
 
