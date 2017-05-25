@@ -41,5 +41,6 @@ module.exports = (robot) ->
             message += "PublicIpAddress: #{instance.PublicIpAddress}" + '\n' if instance.PublicIpAddress?
             message += "PrivateDnsName: #{instance.PrivateDnsName}" + '\n'
             message += "PrivateIpAddress: #{instance.PrivateIpAddress}" + '\n'
+            message += "test"
             message += "----------------------------------"
             res.send message
