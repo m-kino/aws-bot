@@ -1,129 +1,50 @@
 # Description:
-#   Example scripts for you to examine and try out.
+#   お天気bot
 #
-# Notes:
-#   They are commented out by default, because most of them are pretty silly and
-#   wouldn't be useful and amusing enough for day to day huboting.
-#   Uncomment the ones you want to try and experiment with.
+# Usage:
+#   天気　#{都市}
+#   ※#{都市}には以下が対応。
+#   東京、神奈川、千葉、埼玉
 #
-#   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md
 
 module.exports = (robot) ->
 
-  robot.respond /天気 (.*)/i, (res) ->
+  robot.respond /天気　(.*)/i, (res) ->
   
     city = res.match[1]
     cityCode = ""
-    if city is "東京" or "とうきょう"
+    if (city is "東京") or (city is "とうきょう")
       cityCode = "130010"
-    else if city is "神奈川" or "かながわ" or "横浜" or "よこはま"
+    else if (city is "神奈川") or (city is "かながわ") or (city is "横浜") or (city is "よこはま")
       cityCode = "140010"
-    else if city is "千葉" or "ちば"
+    else if (city is "千葉") or (city is "ちば")
       cityCode = "120010"
-    else if city is "埼玉" or "さいたま"
+    else if (city is "埼玉") or (city is "さいたま")
       cityCode = "110010"
     else
       res.reply "首都圏以外は分かんないよ。"
 
     request = res.http('http://weather.livedoor.com/forecast/webservice/json/v1').query(city: cityCode).get()
     request (err, response, body) ->
-      console.log body
-      
-      res.send "＊#{city}の天気＊"
       result = JSON.parse(body)
-      res.reply result.description.text
-
-  #robot.hear /badger/i, (res) ->
-  #  res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
-  #
-  #robot.respond /open the (.*) doors/i, (res) ->
-  #  doorType = res.match[1]
-  #  if doorType is "pod bay"
-  #    res.reply "I'm afraid I can't let you do that."
-  #  else
-  #    res.reply "Opening #{doorType} doors"
-  #
-  #robot.hear /I like pie/i, (res) ->
-  #  res.emote "makes a freshly baked pie"
-  #
-  # lulz = ['lol', 'rofl', 'lmao']
-  #
-  # robot.respond /lulz/i, (res) ->
-  #   res.send res.random lulz
-  #
-  # robot.topic (res) ->
-  #   res.send "#{res.message.text}? That's a Paddlin'"
-  #
-  #
-  # enterReplies = ['Hi', 'Target Acquired', 'Firing', 'Hello friend.', 'Gotcha', 'I see you']
-  # leaveReplies = ['Are you still there?', 'Target lost', 'Searching']
-  #
-  # robot.enter (res) ->
-  #   res.send res.random enterReplies
-  # robot.leave (res) ->
-  #   res.send res.random leaveReplies
-  #
-  # answer = process.env.HUBOT_ANSWER_TO_THE_ULTIMATE_QUESTION_OF_LIFE_THE_UNIVERSE_AND_EVERYTHING
-  #
-  # robot.respond /what is the answer to the ultimate question of life/, (res) ->
-  #   unless answer?
-  #     res.send "Missing HUBOT_ANSWER_TO_THE_ULTIMATE_QUESTION_OF_LIFE_THE_UNIVERSE_AND_EVERYTHING in environment: please set and try again"
-  #     return
-  #   res.send "#{answer}, but what is the question?"
-  #
-  # robot.respond /you are a little slow/, (res) ->
-  #   setTimeout () ->
-  #     res.send "Who you calling 'slow'?"
-  #   , 60 * 1000
-  #
-  # annoyIntervalId = null
-  #
-  # robot.respond /annoy me/, (res) ->
-  #   if annoyIntervalId
-  #     res.send "AAAAAAAAAAAEEEEEEEEEEEEEEEEEEEEEEEEIIIIIIIIHHHHHHHHHH"
-  #     return
-  #
-  #   res.send "Hey, want to hear the most annoying sound in the world?"
-  #   annoyIntervalId = setInterval () ->
-  #     res.send "AAAAAAAAAAAEEEEEEEEEEEEEEEEEEEEEEEEIIIIIIIIHHHHHHHHHH"
-  #   , 1000
-  #
-  # robot.respond /unannoy me/, (res) ->
-  #   if annoyIntervalId
-  #     res.send "GUYS, GUYS, GUYS!"
-  #     clearInterval(annoyIntervalId)
-  #     annoyIntervalId = null
-  #   else
-  #     res.send "Not annoying you right now, am I?"
-  #
-  #
-  # robot.router.post '/hubot/chatsecrets/:room', (req, res) ->
-  #   room   = req.params.room
-  #   data   = JSON.parse req.body.payload
-  #   secret = data.secret
-  #
-  #   robot.messageRoom room, "I have a secret: #{secret}"
-  #
-  #   res.send 'OK'
-  #
-  # robot.error (err, res) ->
-  #   robot.logger.error "DOES NOT COMPUTE"
-  #
-  #   if res?
-  #     res.reply "DOES NOT COMPUTE"
-  #
-  # robot.respond /have a soda/i, (res) ->
-  #   # Get number of sodas had (coerced to a number).
-  #   sodasHad = robot.brain.get('totalSodas') * 1 or 0
-  #
-  #   if sodasHad > 4
-  #     res.reply "I'm too fizzy.."
-  #
-  #   else
-  #     res.reply 'Sure!'
-  #
-  #     robot.brain.set 'totalSodas', sodasHad+1
-  #
-  # robot.respond /sleep it off/i, (res) ->
-  #   robot.brain.set 'totalSodas', 0
-  #   res.reply 'zzzzz'
+      if err
+        console.log err, err.stack
+        res.reply "お天気情報が取得できませんでした。"
+      else
+        console.log result.title
+        console.log "---------------------------------"
+        for forecast in result.forecasts
+          console.log "#{forecast.dateLabel}：#{forecast.telop}"
+#          console.log "最低気温：#{forecast.temperature.min}　/ 最高気温：#{forecast.temperature.max}"
+        console.log "---------------------------------"
+        console.log result.description.text
+        console.log "---------------------------------"
+        message = ""
+        message += result.title + "\n"
+        message += "---------------------------------" + "\n"
+        for forecast in result.forecasts
+          message += "#{forecast.dateLabel} : #{forecast.telop}" + "\n"
+        message += "---------------------------------" + "\n"
+        message += result.description.text + "\n"
+        message += "---------------------------------"
+        res.send message
