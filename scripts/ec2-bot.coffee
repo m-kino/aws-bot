@@ -24,8 +24,9 @@ module.exports = (robot) ->
             console.log "State: #{instance.State.Name}"
             console.log "Platform: #{instance.Platform}" if instance.Platform?
             console.log "InstanceType: #{instance.InstanceType}"
-            console.log "PublicDnsName: #{instance.PublicDnsName}" if PublicDnsName?
-            console.log "PublicIpAddress: #{instance.PublicIpAddress}" if PublicIpAddress?
+            console.log "InstanceId: #{instance.InstanceId}"
+            console.log "PublicDnsName: #{instance.PublicDnsName}" if instance.PublicDnsName?
+            console.log "PublicIpAddress: #{instance.PublicIpAddress}" if instance.PublicIpAddress?
             console.log "PrivateDnsName: #{instance.PrivateDnsName}"
             console.log "PrivateIpAddress: #{instance.PrivateIpAddress}"
             console.log "----------------------------------"
@@ -35,8 +36,9 @@ module.exports = (robot) ->
             message += "State: #{instance.State.Name}" + '\n'
             message += "Platform: #{instance.Platform}" + '\n' if instance.Platform?
             message += "InstanceType: #{instance.InstanceType}" + '\n'
-            message += "PublicDnsName: #{instance.PublicDnsName}" + '\n' if PublicDnsName?
-            message += "PublicIpAddress: #{instance.PublicIpAddress}" + '\n' if PublicIpAddress?
+            message += "InstanceId: #{instance.InstanceId}" + '\n'
+            message += "PublicDnsName: #{instance.PublicDnsName}" + '\n' if instance.PublicDnsName?
+            message += "PublicIpAddress: #{instance.PublicIpAddress}" + '\n' if instance.PublicIpAddress?
             message += "PrivateDnsName: #{instance.PrivateDnsName}" + '\n'
             message += "PrivateIpAddress: #{instance.PrivateIpAddress}" + '\n'
             message += "----------------------------------"
